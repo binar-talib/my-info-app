@@ -32,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
     getAllJobs();
   }
 
-  void getAllJobs() {
-    setState(() async {
-      allJobs = await Jobs().getAllJobs();
+  Future<void> getAllJobs() async {
+    allJobs = await Jobs().getAllJobs();
+    setState(() {
       searchedJobs = allJobs;
     });
   }
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => getAllJobs(),
+        onRefresh: () => getAllJobs(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -124,47 +124,47 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(
-                  top: 10.0,
-                  left: 20.0,
-                  right: 20.0,
-                  bottom: 60.0,
-                ),
-                itemCount: searchedJobs.length,
-                itemBuilder: (context, index) {
-                  if (searchedJobs.isNotEmpty) {
-                    return JobCards(
-                        title: searchedJobs[index].name,
-                        company: searchedJobs[index].jobProviderName,
-                        salary: searchedJobs[index].salary,
-                        type: searchedJobs[index].jobType,
-                        location: searchedJobs[index].formattedAddress,
-                        deadline: searchedJobs[index].deadline,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => JobDetailsScreen(
-                                title: searchedJobs[index].name,
-                                salary: searchedJobs[index].salary,
-                                jobType: searchedJobs[index].jobType,
-                                location: searchedJobs[index].formattedAddress,
-                                deadline: searchedJobs[index].deadline,
-                                qualification:
-                                    searchedJobs[index].jobQualifications,
-                                description: searchedJobs[index].jobDescription,
-                              ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return const Center(
+              child: searchedJobs.isEmpty
+                  ? const Center(
                       child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.only(
+                        top: 10.0,
+                        left: 20.0,
+                        right: 20.0,
+                        bottom: 60.0,
+                      ),
+                      itemCount: searchedJobs.length,
+                      itemBuilder: (context, index) {
+                        return JobCards(
+                            title: searchedJobs[index].name,
+                            company: searchedJobs[index].jobProviderName,
+                            salary: searchedJobs[index].salary,
+                            type: searchedJobs[index].jobType,
+                            location: searchedJobs[index].formattedAddress,
+                            deadline: searchedJobs[index].deadline,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => JobDetailsScreen(
+                                    title: searchedJobs[index].name,
+                                    salary: searchedJobs[index].salary,
+                                    jobType: searchedJobs[index].jobType,
+                                    location:
+                                        searchedJobs[index].formattedAddress,
+                                    deadline: searchedJobs[index].deadline,
+                                    qualification:
+                                        searchedJobs[index].jobQualifications,
+                                    description:
+                                        searchedJobs[index].jobDescription,
+                                  ),
+                                ),
+                              );
+                            });
+                      },
+                    ),
             ),
           ],
         ),
