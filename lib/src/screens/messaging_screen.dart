@@ -1,67 +1,99 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MessagingScreen extends StatelessWidget {
+import '../custom_widgets/custom_text_field.dart';
+import '../custom_widgets/message_bubble.dart';
+
+class MessagingScreen extends StatefulWidget {
   const MessagingScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MessagingScreen> createState() => _MessagingScreenState();
+}
+
+class _MessagingScreenState extends State<MessagingScreen> {
+  List<Map<String, dynamic>> messages = [
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+    {'name': 'binar talib', 'description': 'i want to know you better'},
+  ];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'MESSAGES',
-                style: TextStyle(fontSize: 24.0),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF6F6F6),
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                      color: Colors.red,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Name',
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 5.0),
-                      Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Color(0xFF777777),
-                        ),
-                      ),
-                    ],
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20.0),
+            const Text(
+              'MESSAGES',
+              style: TextStyle(fontSize: 24.0),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    return MessageBubble(
+                      name: messages[index]['name'],
+                      description: messages[index]['description'],
+                    );
+                  },
                 ),
               ),
-              const Divider(
-                height: 1.0,
-                color: Colors.black26,
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                    //color: Colors.black26,
+            ),
+            const Divider(
+              height: 1.0,
+              color: Colors.black26,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text(
+                    'SEND ME A MESSAGE',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
                     ),
+                  ),
+                  const SizedBox(height: 5.0),
+                  CustomTextField(
+                    controller: _messageController,
+                    maxLines: 5,
+                    hintText: 'MESSAGE',
+                  ),
+                  const SizedBox(height: 5.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _nameController,
+                          maxLines: 1,
+                          hintText: 'NAME',
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.solidPaperPlane,
+                          color: Color(0xFF00FF85),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
