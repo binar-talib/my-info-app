@@ -15,6 +15,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
   List<Map<String, dynamic>> messages = [];
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +32,11 @@ class _MessagingScreenState extends State<MessagingScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ListView.builder(
+                  //reverse: true,
+                  controller: _scrollController,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
+                    //messages.reversed.toList();
                     return MessageBubble(
                       name: messages[index]['name'],
                       description: messages[index]['description'],
@@ -84,6 +88,10 @@ class _MessagingScreenState extends State<MessagingScreen> {
                                   'description': _messageController.text,
                                 },
                               );
+                              _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn);
                             });
                           }
                         },
