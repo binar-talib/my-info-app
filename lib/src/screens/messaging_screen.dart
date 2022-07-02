@@ -12,15 +12,7 @@ class MessagingScreen extends StatefulWidget {
 }
 
 class _MessagingScreenState extends State<MessagingScreen> {
-  List<Map<String, dynamic>> messages = [
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-    {'name': 'binar talib', 'description': 'i want to know you better'},
-  ];
+  List<Map<String, dynamic>> messages = [];
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   @override
@@ -82,7 +74,19 @@ class _MessagingScreenState extends State<MessagingScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_nameController.text != '' &&
+                              _messageController.text != '') {
+                            setState(() {
+                              messages.add(
+                                {
+                                  'name': _nameController.text,
+                                  'description': _messageController.text,
+                                },
+                              );
+                            });
+                          }
+                        },
                         icon: const FaIcon(
                           FontAwesomeIcons.solidPaperPlane,
                           color: Color(0xFF00FF85),
