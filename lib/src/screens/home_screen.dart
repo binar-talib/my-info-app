@@ -3,9 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:personal_info_app/src/custom_widgets/message_button.dart';
 import 'package:personal_info_app/src/custom_widgets/social_media_button.dart';
 import 'package:personal_info_app/src/screens/messaging_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  void _launchUrl(url) async {
+    if (!await launchUrl(url)) throw 'Could not launch $url';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,26 +50,36 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 width: screenWidth * 0.75,
                 child: const Text(
-                  '''Greetings
-                \nI am Binar, from Halabjay Shaheed and I am Software Engineering graduate, I love to develop mobile applications, and I can speak Kurdish, English, and Turkish.
+                  '''Greetings\nI am Binar, from Halabjay Shaheed and I am Software Engineering graduate, I love to develop mobile applications, and I can speak Kurdish, English, and Turkish.
                 ''',
                   textAlign: TextAlign.center,
                 ),
               ),
               SocialMediaButton(
-                onTap: () {},
+                onTap: () {
+                  Uri url = Uri.parse(
+                      'https://www.linkedin.com/in/binar-talib-592b02186/');
+                  _launchUrl(url);
+                },
                 color: const Color(0xFFF3F2FF),
                 title: 'LinkedIn Profile',
                 icon: FontAwesomeIcons.linkedinIn,
               ),
               SocialMediaButton(
-                onTap: () {},
+                onTap: () {
+                  Uri url =
+                      Uri.parse('https://www.facebook.com/Binar.Talib.545/');
+                  _launchUrl(url);
+                },
                 color: const Color(0xFFC7E4FF),
                 title: 'Facebook Profile',
                 icon: FontAwesomeIcons.facebookF,
               ),
               SocialMediaButton(
-                onTap: () {},
+                onTap: () {
+                  Uri url = Uri.parse('https://www.instagram.com/binar_talib/');
+                  _launchUrl(url);
+                },
                 color: const Color(0xFFFFF2F2),
                 title: 'Instagram Profile',
                 icon: FontAwesomeIcons.instagram,
@@ -81,11 +95,18 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   MessageButton(
                     image: 'assets/images/whatsapp.png',
-                    onTap: () {},
+                    onTap: () {
+                      Uri url =
+                          Uri.parse('whatsapp://send?phone=+964-750-102-6647');
+                      _launchUrl(url);
+                    },
                   ),
                   MessageButton(
                     image: 'assets/images/mail.png',
-                    onTap: () {},
+                    onTap: () {
+                      Uri url = Uri.parse('mailto:binartalib2000@gmail.com');
+                      _launchUrl(url);
+                    },
                   ),
                   MessageButton(
                     image: 'assets/images/sms.png',
