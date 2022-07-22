@@ -1,5 +1,3 @@
-import 'package:job_vacancy/networking/models/job.dart';
-
 String calculateDays(String deadline) {
   final date1 = DateTime.parse(deadline);
   final date2 = DateTime.now();
